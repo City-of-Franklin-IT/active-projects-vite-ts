@@ -1,4 +1,4 @@
-import { useContext, useCallback, useState } from "react"
+import React, { useContext, useCallback, useState } from "react"
 import MapCtx from "@/components/map/context"
 
 // Types
@@ -10,7 +10,9 @@ export const useHandleMapOptionsContainer = () => {
 
   const [state, setState] = useState<{ activeBtn: MapOptionsContainerBtnsType | null }>({ activeBtn: null })
 
-  const onClick = (type: MapOptionsContainerBtnsType) => {
+  const onClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const type = e.currentTarget.value as MapOptionsContainerBtnsType
+
     const payload = type !== state.activeBtn ? type : null
     setState({ activeBtn: payload })
   }

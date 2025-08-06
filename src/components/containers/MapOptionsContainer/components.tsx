@@ -20,6 +20,7 @@ export const Filter = ({ projects, active, onClick }: { projects: AppTypes.Proje
       <button
         type="button"
         className={`btn rounded-none w-20 h-20 ${ state.hovered || active ? 'btn-warning text-neutral' : 'btn-neutral text-warning' }`}
+        value="Filter"
         onClick={onClick}
         onMouseEnter={() => setState(({ hovered: true }))}
         onMouseLeave={() => setState(({ hovered: false }))}>
@@ -43,6 +44,7 @@ export const Legend = ({ active, onClick }: { active: boolean, onClick: React.Mo
       <button
         type="button"
         className={`btn rounded-none w-20 h-20 ${ state.hovered || active ? 'btn-warning text-neutral' : 'btn-neutral text-warning' }`}
+        value="Legend"
         onClick={onClick}
         onMouseEnter={() => setState(({ hovered: true }))}
         onMouseLeave={() => setState(({ hovered: false }))}>
@@ -66,6 +68,7 @@ export const Basemap = ({ active, onClick }: { active: boolean, onClick: React.M
       <button
         type="button"
         className={`btn rounded-none w-20 h-20 ${ state.hovered || active ? 'btn-warning text-neutral' : 'btn-neutral text-warning' }`}
+        value="Basemap"
         onClick={onClick}
         onMouseEnter={() => setState(({ hovered: true }))}
         onMouseLeave={() => setState(({ hovered: false }))}>
@@ -154,7 +157,8 @@ const BasemapOptions = ({ visible }: { visible: boolean }) => {
   if(!visible) return null
 
   return (
-    <motion.div 
+    <motion.div
+      data-testid="basemap-options" 
       className="absolute flex flex-col gap-2 items-center p-6 bg-neutral right-[120%] -bottom-[192px] w-[240px] xl:w-[300px]"
       { ...motionProps }>
       <h3 className="font-jura text-warning font-bold uppercase text-center">Basemap</h3>

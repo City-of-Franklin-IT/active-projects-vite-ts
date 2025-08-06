@@ -19,14 +19,14 @@ function MapOptionsContainer({ projects }: { projects: AppTypes.ProjectInterface
       { ...motionProps }>
       <Basemap
         active={activeBtn === "Basemap"}
-        onClick={() => onClick('Basemap')} />
+        onClick={onClick} />
       <Legend
         active={activeBtn === "Legend"}
-        onClick={() => onClick('Legend')}  />
+        onClick={onClick}  />
       <Filter 
         projects={projects}
         active={activeBtn === "Filter"}
-        onClick={() => onClick('Filter')} />
+        onClick={onClick} />
     </motion.div>
   )
 }

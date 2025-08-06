@@ -21,6 +21,21 @@ export interface UpdateInterface {
   createdAt: string
 }
 
+export interface MilestoneInterface {
+  milestoneDesc: string
+  milestoneEst: string
+  milestoneRealized: string | null
+  parentId: string
+  uuid: string
+}
+
+export interface Phase {
+  phase: "Design" | "ROW" | "Construction"
+  parentId: string
+  uuid: string
+  createdAt: string
+}
+
 export interface MapHitInterface {
   graphic: {
     attributes: {
@@ -47,18 +62,3 @@ export type BasemapType =
   | "streets-night-vector"
   | "streets-relief-vector"
   | "topo-vector"
-
-interface MilestoneInterface {
-  milestoneDesc: string
-  milestoneEst: string
-  milestoneRealized: string | null
-  parentId: string
-  uuid: string
-}
-
-interface Phase {
-  phase: "Design" | "ROW" | "Construction"
-  parentId: string
-  uuid: string
-  createdAt: string
-}
