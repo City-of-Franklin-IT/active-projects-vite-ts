@@ -1,10 +1,16 @@
 import { API_URL } from "../../config"
 
 // Types
-import { GetProjectsResponse } from "./types"
+import * as AppTypes from '@/context/App/types'
 
-export const getProjects = async (): Promise<GetProjectsResponse> => {
-  const result = await fetch(`${ API_URL }`)
+export const getProjects = async (): Promise<{ success: boolean, data: AppTypes.ProjectInterface[] }> => {
+  const res = await fetch(`${ API_URL }`)
 
-  return await result.json()
+  return await res.json()
+}
+
+export const getProject = async (uuid: string): Promise<{ success: boolean, data: AppTypes.ProjectInterface }> => {
+  const res = await fetch(`${ API_URL }/${ uuid }`)
+
+  return await res.json()
 }

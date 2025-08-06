@@ -1,14 +1,20 @@
 import { useGetProjects } from './hooks'
+import { MapProvider } from '@/components/map/context'
 
 // Components
-import MapContainer from '../../components/containers/MapContainer'
+import HandleLoading from '@/utils/HandleLoading'
+import MapContainer from '@/components/containers/MapContainer'
 
 function Home() {
-  const projects = useGetProjects()
+  const { data, isSuccess } = useGetProjects()
 
   return (
     <div className="w-screen h-screen">
-      <MapContainer projects={projects.data?.data || []} />
+      <HandleLoading isSuccess={isSuccess}>
+        <MapProvider>
+          <MapContainer projects={data?.data || []} />
+        </MapProvider>
+      </HandleLoading>
     </div>
   )
 }

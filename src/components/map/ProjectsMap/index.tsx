@@ -1,31 +1,17 @@
-import { useEffect, useRef, useState, useContext } from "react"
-import AppContext from "../../../context/App/AppContext"
-import { setMapView } from './utils'
-import { useFilterProjects } from './hooks'
+import { useRef } from "react"
+import { useDebounce, useSetMapView, useFilterProjects } from './hooks'
 
 // Types
-import MapView from "@arcgis/core/views/MapView"
 import { ProjectInterface } from "../../../context/App/types"
-import { MapHit } from "./types"
 
-function ProjectsMap({ projects, handleProjectSelection, closePopup }: { projects: ProjectInterface[], handleProjectSelection: (e: MapHit) => void, closePopup: (() => void) | undefined }) {
-  const { basemap } = useContext(AppContext)
-
-  const [state, setState] = useState<{ view: MapView  | null }>({ view: null })
-
+function ProjectsMap({ projects }: { projects: ProjectInterface[] }) {
   const mapRef = useRef<HTMLDivElement>(null)
 
-  const filteredProjects = useFilterProjects(projects)
+  const filtered = useFilterProjects(projects)
 
-  useEffect(() => {
-    setMapView(filteredProjects, basemap, mapRef, setState, handleProjectSelection, closePopup)
+  const debounced = useDebounce(filtered, 500)
 
-    return () => {
-      if(state.view) {
-        state.view.destroy
-      }
-    }
-  }, [filteredProjects, handleProjectSelection, basemap])
+  useSetMapView(mapRef as React.RefObject<HTMLDivElement>, debounced)
 
   return (
     <div className="w-full h-full" ref={mapRef}></div>

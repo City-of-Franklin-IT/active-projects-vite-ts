@@ -1,24 +1,16 @@
-import { useContext, useState } from 'react'
-import { setFilterOptions, setIconSrc } from './utils'
+import React, { useContext, useState } from 'react'
+import { motion } from 'motion/react'
+import { setFilterOptions, iconSrcMap, legendOptions, basemapOptions, motionProps } from './utils'
 import { useHandleFilterOptionBtnClick } from './hooks'
 
-// Icons
-import filterIcon from '../../../assets/icons/filter/filter.svg'
-import filterHoveredIcon from '../../../assets/icons/filter/filter-hovered.svg'
-import legendIcon from '../../../assets/icons/map-legend/map-legend.svg'
-import legendHoveredIcon from '../../../assets/icons/map-legend/map-legend-hovered.svg'
-import basemapIcon from '../../../assets/icons/basemap/basemap.svg'
-import basemapHoveredIcon from '../../../assets/icons/basemap/basemap-hovered.svg'
-
 // Types
-import { ProjectInterface, ProjectTypeEnum } from '../../../context/App/types'
-import { BasemapEnum } from '../MapContainer/types'
-import AppContext from '../../../context/App/AppContext'
+import * as AppTypes from '@/context/App/types'
+import MapCtx from '@/components/map/context'
 
-export const Filter = ({ projects, active, handleBtnClick }: { projects: ProjectInterface[], active: boolean, handleBtnClick: () => void }) => {
+export const Filter = ({ projects, active, onClick }: { projects: AppTypes.ProjectInterface[], active: boolean, onClick: React.MouseEventHandler<HTMLButtonElement> }) => {
   const [state, setState] = useState<{ hovered: boolean }>({ hovered: false })
 
-  const icon = state.hovered || active ? filterHoveredIcon : filterIcon
+  const icon = state.hovered || active ? iconSrcMap.get('hovered filter') : iconSrcMap.get('filter') 
 
   return (
     <div className="relative flex gap-2 items-end h-fit mt-auto">
@@ -28,7 +20,7 @@ export const Filter = ({ projects, active, handleBtnClick }: { projects: Project
       <button
         type="button"
         className={`btn rounded-none w-20 h-20 ${ state.hovered || active ? 'btn-warning text-neutral' : 'btn-neutral text-warning' }`}
-        onClick={handleBtnClick}
+        onClick={onClick}
         onMouseEnter={() => setState(({ hovered: true }))}
         onMouseLeave={() => setState(({ hovered: false }))}>
           <div className="flex flex-col items-center gap-1">
@@ -40,10 +32,10 @@ export const Filter = ({ projects, active, handleBtnClick }: { projects: Project
   )
 }
 
-export const Legend = ({ active, handleBtnClick }: { active: boolean, handleBtnClick: () => void }) => {
+export const Legend = ({ active, onClick }: { active: boolean, onClick: React.MouseEventHandler<HTMLButtonElement> }) => {
   const [state, setState] = useState<{ hovered: boolean }>({ hovered: false })
 
-  const icon = state.hovered || active ? legendHoveredIcon : legendIcon
+  const icon = state.hovered || active ? iconSrcMap.get('hovered legend') : iconSrcMap.get('legend')
 
   return (
     <div className="relative flex gap-2 items-end h-fit mt-auto">
@@ -51,7 +43,7 @@ export const Legend = ({ active, handleBtnClick }: { active: boolean, handleBtnC
       <button
         type="button"
         className={`btn rounded-none w-20 h-20 ${ state.hovered || active ? 'btn-warning text-neutral' : 'btn-neutral text-warning' }`}
-        onClick={handleBtnClick}
+        onClick={onClick}
         onMouseEnter={() => setState(({ hovered: true }))}
         onMouseLeave={() => setState(({ hovered: false }))}>
           <div className="flex flex-col gap-1 items-center">
@@ -63,10 +55,10 @@ export const Legend = ({ active, handleBtnClick }: { active: boolean, handleBtnC
   )
 }
 
-export const Basemap = ({ active, handleBtnClick }: { active: boolean, handleBtnClick: () => void }) => {
+export const Basemap = ({ active, onClick }: { active: boolean, onClick: React.MouseEventHandler<HTMLButtonElement> }) => {
   const [state, setState] = useState<{ hovered: boolean }>({ hovered: false })
 
-  const icon = state.hovered || active ? basemapHoveredIcon : basemapIcon
+  const icon = state.hovered || active ? iconSrcMap.get('hovered basemap') : iconSrcMap.get('basemap')
 
   return (
     <div className="relative flex gap-2 items-end h-fit mt-auto">
@@ -74,7 +66,7 @@ export const Basemap = ({ active, handleBtnClick }: { active: boolean, handleBtn
       <button
         type="button"
         className={`btn rounded-none w-20 h-20 ${ state.hovered || active ? 'btn-warning text-neutral' : 'btn-neutral text-warning' }`}
-        onClick={handleBtnClick}
+        onClick={onClick}
         onMouseEnter={() => setState(({ hovered: true }))}
         onMouseLeave={() => setState(({ hovered: false }))}>
           <div className="flex flex-col gap-1 items-center">
@@ -86,13 +78,15 @@ export const Basemap = ({ active, handleBtnClick }: { active: boolean, handleBtn
   )
 }
 
-const FilterOptions = ({ projects, visible }: { projects: ProjectInterface[], visible: boolean }) => {
+const FilterOptions = ({ projects, visible }: { projects: AppTypes.ProjectInterface[], visible: boolean }) => {
   if(!visible) return null
 
   const options = setFilterOptions(projects)
 
   return (
-    <div className="absolute flex flex-col gap-2 items-center p-6 bg-neutral right-[120%] bottom-0 w-[240px] xl:w-[300px]">
+    <motion.div 
+      className="absolute flex flex-col gap-2 items-center p-6 bg-neutral right-[120%] bottom-0 w-[240px] xl:w-[300px]"
+      { ...motionProps }>
       <h3 className="font-jura text-warning font-bold uppercase text-center">Filter By Project Type</h3>
 
       {options.map(option => {
@@ -102,12 +96,12 @@ const FilterOptions = ({ projects, visible }: { projects: ProjectInterface[], vi
             type={option} />
         ) 
       })}
-    </div>
+    </motion.div>
   )
 }
 
-const FilterOption = ({ type }: { type: ProjectTypeEnum }) => {
-  const { filters } = useContext(AppContext)
+const FilterOption = ({ type }: { type: AppTypes.ProjectType }) => {
+  const { filters } = useContext(MapCtx)
 
   const active = !!filters.find(filter => filter === type)
 
@@ -119,8 +113,8 @@ const FilterOption = ({ type }: { type: ProjectTypeEnum }) => {
       className={`btn btn-ghost w-full text-start ${ active ? 'opacity-100' : 'opacity-50' }`}
       onClick={handleFilterOptionBtnClick}>
         <div className="flex justify-between gap-6 items-center w-full">
-          <span className="text-jura text-neutral-content font-bold">{type}</span>
-          <img src={setIconSrc(type)} alt="filter type icon" className={`w-8 ${ active ? 'opacity-100' : 'opacity-50' }`} />
+          <span className="text-[jura] text-neutral-content font-bold">{type}</span>
+          <img src={iconSrcMap.get(type)} alt="filter type icon" className={`w-8 ${ active ? 'opacity-100' : 'opacity-50' }`} />
         </div>
     </button>
   )
@@ -129,29 +123,29 @@ const FilterOption = ({ type }: { type: ProjectTypeEnum }) => {
 const LegendOptions = ({ visible }: { visible: boolean }) => {
   if(!visible) return null
 
-  const options = Object.values(ProjectTypeEnum)
-
   return (
-    <div className="absolute flex flex-col gap-4 items-center p-6 bg-neutral right-[120%] -bottom-[96px] w-[240px] xl:w-[300px]">
+    <motion.div 
+      className="absolute flex flex-col gap-4 items-center p-6 bg-neutral right-[120%] -bottom-[96px] w-[240px] xl:w-[300px]"
+      { ...motionProps }>
       <h3 className="font-jura text-warning font-bold uppercase text-center">Map Legend</h3>
 
-      {options.map(option => {
+      {legendOptions.map(option => {
         return (
           <LegendOption
             key={`legend-option-${ option }`} 
             type={option} />
         ) 
       })}
-    </div>
+    </motion.div>
   )
 }
 
-const LegendOption = ({ type }: { type: ProjectTypeEnum }) => {
+const LegendOption = ({ type }: { type: AppTypes.ProjectType }) => {
 
   return (
     <div className="flex justify-between gap-6 items-center w-full">
-      <span className="text-jura text-neutral-content font-bold">{type}</span>
-      <img src={setIconSrc(type)} alt="legend type icon" className="w-8" />
+      <span className="text-[jura] text-neutral-content font-bold">{type}</span>
+      <img src={iconSrcMap.get(type)} alt="legend type icon" className="w-8" />
     </div>
   )
 }
@@ -159,25 +153,25 @@ const LegendOption = ({ type }: { type: ProjectTypeEnum }) => {
 const BasemapOptions = ({ visible }: { visible: boolean }) => {
   if(!visible) return null
 
-  const options = Object.values(BasemapEnum)
-
   return (
-    <div className="absolute flex flex-col gap-2 items-center p-6 bg-neutral right-[120%] -bottom-[192px] w-[240px] xl:w-[300px]">
+    <motion.div 
+      className="absolute flex flex-col gap-2 items-center p-6 bg-neutral right-[120%] -bottom-[192px] w-[240px] xl:w-[300px]"
+      { ...motionProps }>
       <h3 className="font-jura text-warning font-bold uppercase text-center">Basemap</h3>
 
-      {options.map(option => {
+      {basemapOptions.map(option => {
         return (
           <BasemapOption
             key={`basemap-option-${ option }`} 
             type={option} />
         ) 
       })}
-    </div>
+    </motion.div>
   )
 }
 
-const BasemapOption = ({ type }: { type: BasemapEnum }) => {
-  const { basemap, dispatch } = useContext(AppContext)
+const BasemapOption = ({ type }: { type: AppTypes.BasemapType }) => {
+  const { basemap, dispatch } = useContext(MapCtx)
 
   const active = type === basemap
   
@@ -187,7 +181,7 @@ const BasemapOption = ({ type }: { type: BasemapEnum }) => {
       value={type}
       className={`btn btn-ghost w-full ${ active ? 'opacity-100' : 'opacity-50' }`}
       onClick={() => dispatch({ type: 'SET_BASEMAP', payload: type })}>
-        <span className="text-jura text-neutral-content font-bold">{type}</span>
+        <span className="text-[jura] text-neutral-content font-bold">{type}</span>
     </button>
   )
 }

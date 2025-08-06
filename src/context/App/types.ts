@@ -1,22 +1,8 @@
-// Types
-import { Dispatch } from "react"
-import { BasemapEnum } from "../../components/containers/MapContainer/types"
-
-export interface AppState {
-  dispatch: Dispatch<AppAction>
-  basemap: BasemapEnum
-  filters: string[]
-}
-
-export type AppAction =
-  | { type: 'SET_FILTERS', payload: string[] }
-  | { type: 'SET_BASEMAP', payload: BasemapEnum }
-
 export interface ProjectInterface {
   projectId: number
   name: string
   projectDescription: string | null
-  type: ProjectTypeEnum
+  type: ProjectType
   manager: string | null
   link: string | null
   approvedBudget: number
@@ -26,12 +12,6 @@ export interface ProjectInterface {
   Phase: Phase
   Milestones: MilestoneInterface[]
   Updates: UpdateInterface[]
-  Spending: SpendingInterface[]
-}
-
-export interface GetProjectsResponse {
-  success: boolean
-  data: ProjectInterface[]
 }
 
 export interface UpdateInterface {
@@ -41,20 +21,32 @@ export interface UpdateInterface {
   createdAt: string
 }
 
-export interface SpendingInterface {
-  dollarsSpent: number
-  dollarsSpentDate: string
-  uuid: string
-  createdAt: string
+export interface MapHitInterface {
+  graphic: {
+    attributes: {
+      name: string
+      uuid: string
+    }
+  }
 }
 
-export enum ProjectTypeEnum {
-  Facilities = "Facilities",
-  Parks = "Parks",
-  Stormwater = "Stormwater",
-  Transportation = "Transportation",
-  WaterManagement = "Water Management"
-}
+export type ProjectType =
+  | "Facilities"
+  | "Parks"
+  | "Stormwater"
+  | "Transportation"
+  | "Water Management"
+
+export type BasemapType =
+  | "dark-gray-vector"
+  | "gray-vector"
+  | "navigation-3d"
+  | "navigation-dark-3d"
+  | "satellite"
+  | "streets-vector"
+  | "streets-night-vector"
+  | "streets-relief-vector"
+  | "topo-vector"
 
 interface MilestoneInterface {
   milestoneDesc: string
