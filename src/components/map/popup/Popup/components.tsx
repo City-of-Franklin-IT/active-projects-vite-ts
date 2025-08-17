@@ -93,7 +93,7 @@ const ProjectLink = ({ href }: { href: string | null | undefined }) => {
   return (
     <a href={href} target="_blank" className="text-neutral-content text-center font-bold uppercase ml-3 no-underline">
       <div className="flex gap-1 m-auto w-fit">
-        <p className="m-auto">Click here for project details via opengov</p>
+        <p className="m-auto">Click here for project details</p>
         <img src={iconMap.get('link')} className="w-4" />
       </div>
     </a>
