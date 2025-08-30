@@ -1,7 +1,7 @@
 <p>Displays the locations and details of active capital investment projects - managed by Engineering via CIP application.</p>
 
 <h1>Deployed</h1>
-[https://apps.franklintn.gov/active-projects/](https://apps.franklintn.gov/active-projects/)
+<a href="https://apps.franklintn.gov/active-projects/" target="_blank">https://apps.franklintn.gov/active-projects/</a><br>
 
 <h1>API</h1>
 https://api.franklin-gov.com/api/v2/eng | <a href="https://github.com/City-of-Franklin-IT/eng-api-ts" target="_blank">GitHub</a><br>
