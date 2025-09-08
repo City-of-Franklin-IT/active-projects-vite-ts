@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 import MapCtx from '../../context'
-import { iconMap } from './utils'
+import { iconMap, projectPhaseDescriptionMap } from './utils'
 
 // Types
 import * as AppTypes from '@/context/App/types'
@@ -51,11 +51,13 @@ export const ProjectDescription = ({ projectDescription }: { projectDescription:
   if(!projectDescription) return null
 
   return (
-    <div className="flex flex-col items-center text-neutral-content text-center bg-neutral w-full">
-      <h3 className="pt-6 font-[play] uppercase font-bold xl:text-xl">Project Overview:</h3>
+    <PopupSection>
+      <>
+        <PopupSectionHeader>Project Overview</PopupSectionHeader>
 
-      <p className="p-8">{projectDescription}</p>
-    </div>
+        <p className="p-8">{projectDescription}</p>
+      </>
+    </PopupSection>
   )
 }
 
@@ -65,12 +67,30 @@ export const ProjectUpdate = ({ projectUpdates }: { projectUpdates: AppTypes.Upd
   const { projectUpdate, createdAt } = projectUpdates[0]
 
   return (
-    <div className="flex flex-col font-[play] bg-neutral text-center w-full">
-      <h3 className="pt-6 uppercase font-bold xl:text-xl">Project Update</h3>
-      
-      <p className="italic p-8">"{projectUpdate}"</p>
-      <small className="ml-auto p-6 pt-0">{createdAt?.split("T")[0]}</small>
-    </div>
+    <PopupSection>
+      <>
+        <PopupSectionHeader>Project Update</PopupSectionHeader>
+        
+        <p className="italic p-8">"{projectUpdate}"</p>
+        <small className="ml-auto p-6 pt-0">{createdAt?.split("T")[0]}</small>
+      </>
+    </PopupSection>
+  )
+}
+
+export const ProjectPhase = ({ phase }: { phase: AppTypes.ProjectPhaseType | undefined }) => {
+  if(!phase) return null
+
+  const projectPhaseDescription = projectPhaseDescriptionMap.get(phase)
+
+  return (
+    <PopupSection>
+      <>
+        <PopupSectionHeader>Project Phase: {phase}</PopupSectionHeader>
+
+        <span className="p-6 pb-8">{projectPhaseDescription}</span>
+      </>
+    </PopupSection>
   )
 }
 
@@ -84,6 +104,22 @@ export const CloseBtn = () => {
       onClick={() => dispatch({ type: 'SET_SELECTION', payload: '' })}>
         Close
     </button>
+  )
+}
+
+const PopupSection = ({ children }: { children: React.ReactElement }) => {
+
+  return (
+    <div className="flex flex-col items-center text-neutral-content text-center bg-neutral w-full">
+      {children}
+    </div>
+  )
+}
+
+const PopupSectionHeader = ({ children }: { children: React.ReactNode }) => {
+
+  return (
+    <h3 className="pt-6 uppercase font-bold xl:text-xl">{children}</h3>
   )
 }
 

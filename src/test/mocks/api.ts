@@ -14,14 +14,14 @@ export const createMockProject = (overrides?: Partial<AppTypes.ProjectInterface>
   xCoordinate: faker.number.float(),
   yCoordinate: faker.number.float(),
   uuid: faker.string.uuid(),
-  Phase: createMockPhase(),
+  Phases: [createMockPhase()],
   Milestones: Array.from({ length: 3 }).map(() => createMockMilestone()),
   Updates: Array.from({ length: 5 }).map(() => createMockUpdate()),
   ...overrides
 })
 
 export const createMockPhase = (overrides?: Partial<AppTypes.Phase>): AppTypes.Phase => ({
-  phase: faker.helpers.arrayElement(projectPhases) as "Design" | "ROW" | "Construction",
+  phase: faker.helpers.arrayElement(projectPhases) as AppTypes.ProjectPhaseType,
   parentId: faker.string.uuid(),
   uuid: faker.string.uuid(),
   createdAt: faker.date.anytime().toISOString(),

@@ -20,6 +20,7 @@ function Popup() {
         <Components.ManagerBadge name={project?.manager} />
         <Components.TypeBadge type={project?.type} />
       </div>
+      <Components.ProjectPhase phase={project?.Phases.length ? project.Phases[0].phase : undefined} />
       <Components.ProjectDescription projectDescription={project?.projectDescription} />
       <Components.ProjectUpdate projectUpdates={project?.Updates} />
       <Components.CloseBtn />

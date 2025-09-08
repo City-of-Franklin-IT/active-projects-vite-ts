@@ -9,7 +9,7 @@ export interface ProjectInterface {
   xCoordinate: number
   yCoordinate: number
   uuid: string
-  Phase: Phase
+  Phases: Phase[]
   Milestones: MilestoneInterface[]
   Updates: UpdateInterface[]
 }
@@ -30,7 +30,7 @@ export interface MilestoneInterface {
 }
 
 export interface Phase {
-  phase: "Design" | "ROW" | "Construction"
+  phase: ProjectPhaseType
   parentId: string
   uuid: string
   createdAt: string
@@ -62,3 +62,13 @@ export type BasemapType =
   | "streets-night-vector"
   | "streets-relief-vector"
   | "topo-vector"
+
+export type ProjectPhaseType =
+  | "Upcoming"
+  | "Planning"
+  | "Design"
+  | "Property Acquisition"
+  | "Bidding & Award"
+  | "Construction"
+  | "Closeout"
+  | "Complete"
