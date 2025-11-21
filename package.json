@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --port 5006",
+    "dev": "vite --port 6000",
     "build": "tsc -b && vite build",
     "deploy": "scp -r dist ssh andrew@cofasv03:/home/andrew/apps/builds/active-projects-vite-ts",
     "lint": "eslint .",

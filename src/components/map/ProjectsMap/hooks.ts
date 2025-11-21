@@ -1,4 +1,4 @@
-import { useContext, useMemo, useState, useEffect, useCallback } from "react"
+import { useContext, useMemo, useState, useEffect } from "react"
 import Map from '@arcgis/core/Map'
 import MapView from '@arcgis/core/views/MapView'
 import Point from '@arcgis/core/geometry/Point'
@@ -26,8 +26,8 @@ export const useFilterProjects = (projects: ProjectInterface[]) => {
 export const useSetMapView = (mapRef: React.RefObject<HTMLDivElement>, projects: AppTypes.ProjectInterface[]) => {
   const [state, setState] = useState<{ view: __esri.MapView | null, isLoaded: boolean }>({ view: null, isLoaded: false })
 
-  useCreateMapView(mapRef, projects, setState)
-
+  useCreateMapView(mapRef, setState)
+  useUpdateMapExtent(state.view, projects)
   useSetMapGraphics(projects, state)
 
   useEffect(() => {
@@ -65,51 +65,21 @@ export const useHandleBasemapSelect = () => {
   return { onChange, basemap }
 }
 
-const useSetMapViewProperties = (projects: AppTypes.ProjectInterface[], mapRef: React.RefObject<HTMLDivElement>) => {
-
-  return useCallback((map: __esri.Map) => {
-    if(projects.length) { // Multiple projects
-      const multipoint = new Multipoint({
-        points: projects.map(project => [project.xCoordinate, project.yCoordinate])
-      })
-
-      const viewExtent = multipoint.extent
-
-      const properties: __esri.MapViewProperties = {
-        container: mapRef.current as HTMLDivElement,
-        map,
-        extent: viewExtent?.expand(1.1),
-        ui: { components: [] }
-      }
-
-      return properties
-    }
-
-    const properties: __esri.MapViewProperties = {
-      container: mapRef.current as HTMLDivElement,
-      map,
-      center: [-86.86897349, 35.92531721],
-      zoom: 12,
-      ui: { components: [] }
-    }
-
-    return properties
-  }, [projects, mapRef])
-}
-
-const useCreateMapView = (mapRef: React.RefObject<HTMLDivElement>, projects: AppTypes.ProjectInterface[], setState: React.Dispatch<React.SetStateAction<{ view: __esri.MapView | null, isLoaded: boolean }>>) => {
+const useCreateMapView = (mapRef: React.RefObject<HTMLDivElement>, setState: React.Dispatch<React.SetStateAction<{ view: __esri.MapView | null, isLoaded: boolean }>>) => {
   const { basemap, dispatch } = useContext(MapCtx)
   
-  const mapViewPropertes = useSetMapViewProperties(projects, mapRef)
-
   useEffect(() => {
     if(!mapRef?.current) return
 
     const map = new Map({ basemap })
 
-    const properties = mapViewPropertes(map)
-
-    const mapView = new MapView({ ...properties })
+    const mapView = new MapView({
+      container: mapRef.current,
+      map,
+      center: [-86.86897349, 35.92531721],
+      zoom: 12,
+      ui: { components: [] }
+    })
 
     mapView.when(() => {
       const searchWidget = new Search({ view: mapView })
@@ -143,7 +113,7 @@ const useCreateMapView = (mapRef: React.RefObject<HTMLDivElement>, projects: App
         mapView.destroy()
       }, 50)
     }
-  }, [dispatch, mapRef, basemap, mapViewPropertes, setState])
+  }, [dispatch, mapRef, basemap, setState])
 }
 
 const useSetMapGraphics = (projects: AppTypes.ProjectInterface[], state: { view: __esri.MapView | null }) => {
@@ -191,4 +161,26 @@ const useSetMapGraphics = (projects: AppTypes.ProjectInterface[], state: { view:
       textGraphicsLayer.add(label)
     })
   }, [state, projects])
+}
+
+const useUpdateMapExtent = (view: __esri.MapView | null, projects: AppTypes.ProjectInterface[]) => {
+
+  useEffect(() => {
+    if(!view) return
+
+    if(projects.length) {
+      const multipoint = new Multipoint({
+        points: projects.map(project => [project.xCoordinate, project.yCoordinate])
+      })
+
+      const viewExtent = multipoint.extent
+
+      if(viewExtent) {
+        view.goTo(viewExtent.expand(1.1), {
+          animate: true,
+          duration: 300
+        }).catch(err => console.log(err))
+      }
+    }
+  }, [view, projects])
 }

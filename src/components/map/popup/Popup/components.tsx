@@ -54,7 +54,6 @@ export const ProjectDescription = ({ projectDescription }: { projectDescription:
     <PopupSection>
       <>
         <PopupSectionHeader>Project Overview</PopupSectionHeader>
-
         <p className="p-8">{projectDescription}</p>
       </>
     </PopupSection>
@@ -70,7 +69,6 @@ export const ProjectUpdate = ({ projectUpdates }: { projectUpdates: AppTypes.Upd
     <PopupSection>
       <>
         <PopupSectionHeader>Project Update</PopupSectionHeader>
-        
         <p className="italic p-8">"{projectUpdate}"</p>
         <small className="ml-auto p-6 pt-0">{createdAt?.split("T")[0]}</small>
       </>
@@ -87,7 +85,6 @@ export const ProjectPhase = ({ phase }: { phase: AppTypes.ProjectPhaseType | und
     <PopupSection>
       <>
         <PopupSectionHeader>Project Phase: {phase}</PopupSectionHeader>
-
         <span className="p-6 pb-8">{projectPhaseDescription}</span>
       </>
     </PopupSection>

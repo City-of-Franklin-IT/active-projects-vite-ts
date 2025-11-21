@@ -6,7 +6,7 @@ import { motionProps } from './utils'
 import * as AppTypes from '@/context/App/types'
 
 // Components
-import { Filter, Legend, Basemap } from './components'
+import * as Components from './components'
 
 function MapOptionsContainer({ projects }: { projects: AppTypes.ProjectInterface[] }) {
   const { onClick, activeBtn, visible } = useHandleMapOptionsContainer()
@@ -17,13 +17,13 @@ function MapOptionsContainer({ projects }: { projects: AppTypes.ProjectInterface
     <motion.div 
       className="absolute flex flex-col bottom-4 right-4 gap-4 xl:bottom-10 xl:right-10"
       { ...motionProps }>
-      <Basemap
+      <Components.Basemap
         active={activeBtn === "Basemap"}
         onClick={onClick} />
-      <Legend
+      <Components.Legend
         active={activeBtn === "Legend"}
         onClick={onClick}  />
-      <Filter 
+      <Components.Filter 
         projects={projects}
         active={activeBtn === "Filter"}
         onClick={onClick} />

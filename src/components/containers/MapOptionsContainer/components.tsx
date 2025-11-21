@@ -1,90 +1,83 @@
-import React, { useContext, useState } from 'react'
+import { useContext } from 'react'
 import { motion } from 'motion/react'
+import MapCtx from '@/components/map/context'
 import { setFilterOptions, iconSrcMap, legendOptions, basemapOptions, motionProps } from './utils'
-import { useHandleFilterOptionBtnClick } from './hooks'
+import { useHandleMapOption, useHandleFilterOption } from './hooks'
 
 // Types
 import * as AppTypes from '@/context/App/types'
-import MapCtx from '@/components/map/context'
 
-export const Filter = ({ projects, active, onClick }: { projects: AppTypes.ProjectInterface[], active: boolean, onClick: React.MouseEventHandler<HTMLButtonElement> }) => {
-  const [state, setState] = useState<{ hovered: boolean }>({ hovered: false })
+type FilterProps = { projects: AppTypes.ProjectInterface[], active: boolean, onClick: React.MouseEventHandler<HTMLButtonElement> }
 
-  const icon = state.hovered || active ? iconSrcMap.get('hovered filter') : iconSrcMap.get('filter') 
+export const Filter = (props: FilterProps) => {
+  const { btnProps, iconSrc } = useHandleMapOption('filter', props.active, props.onClick)
 
   return (
-    <div className="relative flex gap-2 items-end h-fit mt-auto">
+    <div className="relative flex gap-2 items-end h-fit mt-dauto">
       <FilterOptions 
-        projects={projects}
-        visible={active} />
+        projects={props.projects}
+        visible={props.active} />
       <button
         type="button"
-        className={`btn rounded-none w-20 h-20 ${ state.hovered || active ? 'btn-warning text-neutral' : 'btn-neutral text-warning' }`}
         value="Filter"
-        onClick={onClick}
-        onMouseEnter={() => setState(({ hovered: true }))}
-        onMouseLeave={() => setState(({ hovered: false }))}>
+        { ...btnProps }>
           <div className="flex flex-col items-center gap-1">
             <span className="uppercase">Filter</span>
-            <img src={icon} alt="filter icon" className="w-10" />
+            <img src={iconSrc} alt="filter icon" className="w-10" />
           </div>
       </button>
     </div>
   )
 }
 
-export const Legend = ({ active, onClick }: { active: boolean, onClick: React.MouseEventHandler<HTMLButtonElement> }) => {
-  const [state, setState] = useState<{ hovered: boolean }>({ hovered: false })
+type LegendProps = { active: boolean, onClick: React.MouseEventHandler<HTMLButtonElement> }
 
-  const icon = state.hovered || active ? iconSrcMap.get('hovered legend') : iconSrcMap.get('legend')
+export const Legend = (props: LegendProps) => {
+  const { btnProps, iconSrc } = useHandleMapOption('legend', props.active, props.onClick)
 
   return (
     <div className="relative flex gap-2 items-end h-fit mt-auto">
-      <LegendOptions visible={active} />
+      <LegendOptions visible={props.active} />
       <button
         type="button"
-        className={`btn rounded-none w-20 h-20 ${ state.hovered || active ? 'btn-warning text-neutral' : 'btn-neutral text-warning' }`}
         value="Legend"
-        onClick={onClick}
-        onMouseEnter={() => setState(({ hovered: true }))}
-        onMouseLeave={() => setState(({ hovered: false }))}>
+        { ...btnProps }>
           <div className="flex flex-col gap-1 items-center">
             <span className="uppercase">Legend</span>
-            <img src={icon} alt="legend icon" className="w-10" />
+            <img src={iconSrc} alt="legend icon" className="w-10" />
           </div>
       </button>
     </div>
   )
 }
 
-export const Basemap = ({ active, onClick }: { active: boolean, onClick: React.MouseEventHandler<HTMLButtonElement> }) => {
-  const [state, setState] = useState<{ hovered: boolean }>({ hovered: false })
+type BasemapProps = { active: boolean, onClick: React.MouseEventHandler<HTMLButtonElement> }
 
-  const icon = state.hovered || active ? iconSrcMap.get('hovered basemap') : iconSrcMap.get('basemap')
+export const Basemap = (props: BasemapProps) => {
+  const { btnProps, iconSrc } = useHandleMapOption('basemap', props.active, props.onClick)
 
   return (
     <div className="relative flex gap-2 items-end h-fit mt-auto">
-      <BasemapOptions visible={active} />
+      <BasemapOptions visible={props.active} />
       <button
         type="button"
-        className={`btn rounded-none w-20 h-20 ${ state.hovered || active ? 'btn-warning text-neutral' : 'btn-neutral text-warning' }`}
         value="Basemap"
-        onClick={onClick}
-        onMouseEnter={() => setState(({ hovered: true }))}
-        onMouseLeave={() => setState(({ hovered: false }))}>
+        { ...btnProps }>
           <div className="flex flex-col gap-1 items-center">
             <span className="uppercase">Basemap</span>
-            <img src={icon} alt="basemap icon" className="w-9" />
+            <img src={iconSrc} alt="basemap icon" className="w-9" />
           </div>
       </button>
     </div>
   )
 }
 
-const FilterOptions = ({ projects, visible }: { projects: AppTypes.ProjectInterface[], visible: boolean }) => {
-  if(!visible) return null
+type FilterOptionsProps = { projects: AppTypes.ProjectInterface[], visible: boolean }
 
-  const options = setFilterOptions(projects)
+const FilterOptions = (props: FilterOptionsProps) => {
+  if(!props.visible) return null
+
+  const options = setFilterOptions(props.projects)
 
   return (
     <motion.div 
@@ -104,20 +97,15 @@ const FilterOptions = ({ projects, visible }: { projects: AppTypes.ProjectInterf
 }
 
 const FilterOption = ({ type }: { type: AppTypes.ProjectType }) => {
-  const { filters } = useContext(MapCtx)
-
-  const active = !!filters.find(filter => filter === type)
-
-  const handleFilterOptionBtnClick = useHandleFilterOptionBtnClick(active, type)
+  const { btnProps, iconProps } = useHandleFilterOption(type)
 
   return (
     <button
       type="button"
-      className={`btn btn-ghost w-full text-start ${ active ? 'opacity-100' : 'opacity-50' }`}
-      onClick={handleFilterOptionBtnClick}>
+      { ...btnProps }>
         <div className="flex justify-between gap-6 items-center w-full">
           <span className="text-[jura] text-neutral-content font-bold">{type}</span>
-          <img src={iconSrcMap.get(type)} alt="filter type icon" className={`w-8 ${ active ? 'opacity-100' : 'opacity-50' }`} />
+          <img { ...iconProps } />
         </div>
     </button>
   )
@@ -183,7 +171,7 @@ const BasemapOption = ({ type }: { type: AppTypes.BasemapType }) => {
     <button
       type="button"
       value={type}
-      className={`btn btn-ghost w-full ${ active ? 'opacity-100' : 'opacity-50' }`}
+      className={`btn btn-neutral w-full ${ active ? 'opacity-100' : 'opacity-50' }`}
       onClick={() => dispatch({ type: 'SET_BASEMAP', payload: type })}>
         <span className="text-[jura] text-neutral-content font-bold">{type}</span>
     </button>
