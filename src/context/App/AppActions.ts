@@ -5,12 +5,22 @@ const API_URL = NODE_ENV === 'development' ? 'https://cofasv38.franklin-gov.com/
 // Types
 import * as AppTypes from '@/context/App/types'
 
+/**
+* Get active capital projects
+* 
+* GET /api/v2/eng/public/active-projects
+**/
 export const getProjects = async (): Promise<{ success: boolean, data: AppTypes.ProjectInterface[] }> => {
   const res = await fetch(`${ API_URL }`)
 
   return await res.json()
 }
 
+/**
+* Get capital project by uuid
+* 
+* GET /api/v2/eng/public/active-projects/:uuid
+**/
 export const getProject = async (uuid: string): Promise<{ success: boolean, data: AppTypes.ProjectInterface }> => {
   const res = await fetch(`${ API_URL }/${ uuid }`)
 

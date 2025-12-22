@@ -1,4 +1,4 @@
-import { useContext, useMemo, useState, useEffect } from "react"
+import { useContext, useState, useEffect } from "react"
 import Map from '@arcgis/core/Map'
 import MapView from '@arcgis/core/views/MapView'
 import Point from '@arcgis/core/geometry/Point'
@@ -19,14 +19,20 @@ import { mapHitTest, projectMarkerMap } from "./utils"
 import * as AppTypes from '@/context/App/types'
 import { ProjectInterface } from "../../../context/App/types"
 
+/**
+* Handle project filters
+**/
 export const useFilterProjects = (projects: ProjectInterface[]) => {
   const { filters } = useContext(MapCtx)
 
-  return useMemo(() => {
-    return projects.filter(project => filters.some(filter => filter === project.type))
-  }, [filters, projects])
+  const filtered = projects.filter(project => filters.some(filter => filter === project.type))
+
+  return filtered
 }
 
+/**
+* Handle active projects map
+**/
 export const useSetMapView = (mapRef: React.RefObject<HTMLDivElement>, projects: AppTypes.ProjectInterface[]) => {
   const [state, setState] = useState<{ view: __esri.MapView | null, isLoaded: boolean }>({ view: null, isLoaded: false })
 
@@ -43,6 +49,9 @@ export const useSetMapView = (mapRef: React.RefObject<HTMLDivElement>, projects:
   }, [state.view])
 }
 
+/**
+* Debounces values for improved map stability
+**/
 export const useDebounce = <T>(value: T, delay: number): T => { // Debouncer
   const [state, setState] = useState<T>(value)
 
@@ -59,16 +68,9 @@ export const useDebounce = <T>(value: T, delay: number): T => { // Debouncer
   return state
 }
 
-export const useHandleBasemapSelect = () => {
-  const { basemap, dispatch } = useContext(MapCtx)
-
-  const onChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    dispatch({ type: 'SET_BASEMAP', payload: e.currentTarget.value as AppTypes.BasemapType})
-  }
-
-  return { onChange, basemap }
-}
-
+/**
+* Create active projects map view
+**/
 const useCreateMapView = (mapRef: React.RefObject<HTMLDivElement>, setState: React.Dispatch<React.SetStateAction<{ view: __esri.MapView | null, isLoaded: boolean }>>) => {
   const { basemap, dispatch } = useContext(MapCtx)
   
@@ -125,6 +127,9 @@ const useCreateMapView = (mapRef: React.RefObject<HTMLDivElement>, setState: Rea
   }, [dispatch, mapRef, basemap, setState])
 }
 
+/**
+* Handle active projects map graphics
+**/
 const useSetMapGraphics = (projects: AppTypes.ProjectInterface[], state: { view: __esri.MapView | null }) => {
 
   useEffect(() => {
@@ -172,6 +177,9 @@ const useSetMapGraphics = (projects: AppTypes.ProjectInterface[], state: { view:
   }, [state, projects])
 }
 
+/**
+* Handle map extent update
+**/
 const useUpdateMapExtent = (view: __esri.MapView | null, projects: AppTypes.ProjectInterface[]) => {
 
   useEffect(() => {
