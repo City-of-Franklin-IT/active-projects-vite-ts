@@ -1,4 +1,6 @@
-import { API_URL } from "../../config"
+import { NODE_ENV } from "../../config"
+
+const API_URL = NODE_ENV === 'development' ? 'https://cofasv38.franklin-gov.com/api/v2/eng/public/active-projects' : 'https://dev.franklintn.gov/api/v2/eng/public/active-projects'
 
 // Types
 import * as AppTypes from '@/context/App/types'

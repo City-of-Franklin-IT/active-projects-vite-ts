@@ -2,6 +2,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Jura:wght@300..700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Teko:wght@300&display=swap');
 
+@import "@arcgis/core/assets/esri/themes/dark/main.css";
+
 @import "tailwindcss";
 @plugin "daisyui";
 @plugin "daisyui/theme" {
@@ -40,4 +42,10 @@ body {
               linear-gradient(290deg, hsla(0, 0%, 9%, .9), hsla(210, 64%, 31%, .1) 70.71%),
               linear-gradient(320deg, hsla(210, 64%, 31%, .5), hsla(0, 0%, 9%, .6) 70.71%);
   background-attachment: fixed;
+}
+
+.esri-basemap-gallery {
+  max-height: 400px;
+  overflow-y: auto;
+  z-index: 20;
 }

@@ -14,16 +14,13 @@ function MapOptionsContainer({ projects }: { projects: AppTypes.ProjectInterface
   if(!visible) return null
 
   return (
-    <motion.div 
+    <motion.div
       className="absolute flex flex-col bottom-4 right-4 gap-4 xl:bottom-10 xl:right-10"
       { ...motionProps }>
-      <Components.Basemap
-        active={activeBtn === "Basemap"}
-        onClick={onClick} />
       <Components.Legend
         active={activeBtn === "Legend"}
         onClick={onClick}  />
-      <Components.Filter 
+      <Components.Filter
         projects={projects}
         active={activeBtn === "Filter"}
         onClick={onClick} />

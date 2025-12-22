@@ -1,7 +1,5 @@
-import { useContext } from 'react'
 import { motion } from 'motion/react'
-import MapCtx from '@/components/map/context'
-import { setFilterOptions, iconSrcMap, legendOptions, basemapOptions, motionProps } from './utils'
+import { setFilterOptions, iconSrcMap, legendOptions, motionProps } from './utils'
 import { useHandleMapOption, useHandleFilterOption } from './hooks'
 
 // Types
@@ -45,27 +43,6 @@ export const Legend = (props: LegendProps) => {
           <div className="flex flex-col gap-1 items-center">
             <span className="uppercase">Legend</span>
             <img src={iconSrc} alt="legend icon" className="w-10" />
-          </div>
-      </button>
-    </div>
-  )
-}
-
-type BasemapProps = { active: boolean, onClick: React.MouseEventHandler<HTMLButtonElement> }
-
-export const Basemap = (props: BasemapProps) => {
-  const { btnProps, iconSrc } = useHandleMapOption('basemap', props.active, props.onClick)
-
-  return (
-    <div className="relative flex gap-2 items-end h-fit mt-auto">
-      <BasemapOptions visible={props.active} />
-      <button
-        type="button"
-        value="Basemap"
-        { ...btnProps }>
-          <div className="flex flex-col gap-1 items-center">
-            <span className="uppercase">Basemap</span>
-            <img src={iconSrc} alt="basemap icon" className="w-9" />
           </div>
       </button>
     </div>
@@ -138,42 +115,5 @@ const LegendOption = ({ type }: { type: AppTypes.ProjectType }) => {
       <span className="text-[jura] text-neutral-content font-bold">{type}</span>
       <img src={iconSrcMap.get(type)} alt="legend type icon" className="w-8" />
     </div>
-  )
-}
-
-const BasemapOptions = ({ visible }: { visible: boolean }) => {
-  if(!visible) return null
-
-  return (
-    <motion.div
-      data-testid="basemap-options" 
-      className="absolute flex flex-col gap-2 items-center p-6 bg-neutral right-[120%] -bottom-[192px] w-[240px] xl:w-[300px]"
-      { ...motionProps }>
-      <h3 className="font-jura text-warning font-bold uppercase text-center">Basemap</h3>
-
-      {basemapOptions.map(option => {
-        return (
-          <BasemapOption
-            key={`basemap-option-${ option }`} 
-            type={option} />
-        ) 
-      })}
-    </motion.div>
-  )
-}
-
-const BasemapOption = ({ type }: { type: AppTypes.BasemapType }) => {
-  const { basemap, dispatch } = useContext(MapCtx)
-
-  const active = type === basemap
-  
-  return (
-    <button
-      type="button"
-      value={type}
-      className={`btn btn-neutral w-full ${ active ? 'opacity-100' : 'opacity-50' }`}
-      onClick={() => dispatch({ type: 'SET_BASEMAP', payload: type })}>
-        <span className="text-[jura] text-neutral-content font-bold">{type}</span>
-    </button>
   )
 }

@@ -31,8 +31,8 @@ describe('MapOptionsContainer', () => {
       </MemoryRouter>
     )
 
-    await userEvent.click(screen.getAllByRole('button')[0]) // Basemap button
+    await userEvent.click(screen.getAllByRole('button')[0]) // Legend button
 
-    await waitFor(() => expect(screen.getByTestId('basemap-options')).toBeInTheDocument()) // Basemap options
+    await waitFor(() => expect(screen.getByTestId('test-span')).toHaveTextContent('Active Button: Legend'))
   })
 })

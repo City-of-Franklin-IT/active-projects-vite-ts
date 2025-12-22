@@ -6,6 +6,10 @@ import Graphic from '@arcgis/core/Graphic'
 import GraphicsLayer from '@arcgis/core/layers/GraphicsLayer'
 import PictureMarkerSymbol from "@arcgis/core/symbols/PictureMarkerSymbol"
 import Search from "@arcgis/core/widgets/Search"
+import Home from "@arcgis/core/widgets/Home"
+import Zoom from "@arcgis/core/widgets/Zoom"
+import BasemapGallery from "@arcgis/core/widgets/BasemapGallery"
+import Expand from "@arcgis/core/widgets/Expand"
 import { TextSymbol } from "@arcgis/core/symbols"
 import Multipoint from '@arcgis/core/geometry/Multipoint'
 import MapCtx from "../context"
@@ -83,10 +87,15 @@ const useCreateMapView = (mapRef: React.RefObject<HTMLDivElement>, setState: Rea
 
     mapView.when(() => {
       const searchWidget = new Search({ view: mapView })
+      const homeWidget = new Home({ view: mapView })
+      const zoomWidget = new Zoom({ view: mapView })
+      const basemapGallery = new BasemapGallery({ view: mapView })
+      const basemapExpand = new Expand({ view: mapView, content: basemapGallery })
       
-      mapView.ui.add(searchWidget, {
-        position: 'top-right'
-      })
+      mapView.ui.add(searchWidget, { position: 'top-right' })
+      mapView.ui.add(homeWidget, { position: 'top-right' })
+      mapView.ui.add(zoomWidget, { position: 'top-right' })
+      mapView.ui.add(basemapExpand, { position: 'top-right' })
 
       setState(prevState => ({ ...prevState, view: mapView }))
     })

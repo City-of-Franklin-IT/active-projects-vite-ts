@@ -51,7 +51,7 @@ export const useHandleFilterOption = (type: AppTypes.ProjectType) => {
   return { btnProps, iconProps }
 }
 
-export const useHandleMapOption = (option: 'filter' | 'legend' | 'basemap',active: boolean, onClick: React.MouseEventHandler<HTMLButtonElement>) => {
+export const useHandleMapOption = (option: 'filter' | 'legend', active: boolean, onClick: React.MouseEventHandler<HTMLButtonElement>) => {
   const [state, setState] = useState<{ hovered: boolean }>({ hovered: false })
   
   const btnClassName = `btn rounded-none w-20 h-20 ${ state.hovered || active ? 'btn-warning text-neutral' : 'btn-neutral text-warning' }`
