@@ -20,7 +20,7 @@ import * as AppTypes from '@/context/App/types'
 import { ProjectInterface } from "../../../context/App/types"
 
 /**
-* Handle project filters
+* Returns filtered capital projects
 **/
 export const useFilterProjects = (projects: ProjectInterface[]) => {
   const { filters } = useContext(MapCtx)
@@ -31,7 +31,7 @@ export const useFilterProjects = (projects: ProjectInterface[]) => {
 }
 
 /**
-* Handle active projects map
+* Handles map creation and changes to capital projects input
 **/
 export const useSetMapView = (mapRef: React.RefObject<HTMLDivElement>, projects: AppTypes.ProjectInterface[]) => {
   const [state, setState] = useState<{ view: __esri.MapView | null, isLoaded: boolean }>({ view: null, isLoaded: false })
@@ -69,7 +69,7 @@ export const useDebounce = <T>(value: T, delay: number): T => { // Debouncer
 }
 
 /**
-* Create active projects map view
+* Create active capital projects map view
 **/
 const useCreateMapView = (mapRef: React.RefObject<HTMLDivElement>, setState: React.Dispatch<React.SetStateAction<{ view: __esri.MapView | null, isLoaded: boolean }>>) => {
   const { basemap, dispatch } = useContext(MapCtx)
@@ -128,7 +128,7 @@ const useCreateMapView = (mapRef: React.RefObject<HTMLDivElement>, setState: Rea
 }
 
 /**
-* Handle active projects map graphics
+* Handles active capital projects map graphics
 **/
 const useSetMapGraphics = (projects: AppTypes.ProjectInterface[], state: { view: __esri.MapView | null }) => {
 
@@ -178,7 +178,7 @@ const useSetMapGraphics = (projects: AppTypes.ProjectInterface[], state: { view:
 }
 
 /**
-* Handle map extent update
+* Handles map extent update
 **/
 const useUpdateMapExtent = (view: __esri.MapView | null, projects: AppTypes.ProjectInterface[]) => {
 

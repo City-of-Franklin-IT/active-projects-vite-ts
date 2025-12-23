@@ -7,7 +7,7 @@ import * as AppTypes from '@/context/App/types'
 import { MapOptionsContainerBtnsType } from './utils'
 
 /**
-* Handle map options button clicks
+* Returns map options button onClick handler, active button state, and container visibility
 **/
 export const useHandleMapOptionsContainer = () => {
   const { selection } = useContext(MapCtx)
@@ -25,7 +25,7 @@ export const useHandleMapOptionsContainer = () => {
 }
 
 /**
-* Handle filter option button clicks
+* Returns filter button and icon props
 **/
 export const useHandleFilterOption = (type: AppTypes.ProjectType) => {
   const { filters, dispatch } = useContext(MapCtx)
@@ -58,7 +58,7 @@ export const useHandleFilterOption = (type: AppTypes.ProjectType) => {
 }
 
 /**
-* Handle button props and icon source for map option buttons
+* Returns map option button and icon props
 **/
 export const useHandleMapOption = (option: 'filter' | 'legend', active: boolean, onClick: React.MouseEventHandler<HTMLButtonElement>) => {
   const [state, setState] = useState<{ hovered: boolean }>({ hovered: false })

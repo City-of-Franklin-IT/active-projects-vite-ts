@@ -2,7 +2,7 @@ import { useQuery } from "react-query"
 import { getProjects } from "../../context/App/AppActions"
 
 /**
-* Get active capital projects
+* Returns active capital projects from server
 **/
 export const useGetProjects = () => {
   

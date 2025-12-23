@@ -4,7 +4,7 @@ import * as AppActions from '@/context/App/AppActions'
 import MapCtx from "../../context"
 
 /**
-* Handles visibility and active project selection, fetches project data
+* Returns popup visibility and selected capital project data
 **/
 export const useHandlePopup = () => {
   const { selection } = useContext(MapCtx)
@@ -15,7 +15,7 @@ export const useHandlePopup = () => {
 }
 
 /**
-* Gets active project data by uuid when selection is in context
+* Returns selected capital project data
 **/
 const useGetProject = () => {
   const { selection } = useContext(MapCtx)
