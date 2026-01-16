@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite --port 6000",
     "build": "tsc -b && vite build",
-    "deploy": "scp -r dist ssh andrew@cofasv03:/home/andrew/apps/builds/active-projects-vite-ts",
+    "deploy": "scp -r dist $USER@cofasv03:/opt/builds/active-projects-vite-ts",
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest"
