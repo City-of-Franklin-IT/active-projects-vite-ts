@@ -1,5 +1,5 @@
 import { useContext } from "react"
-import { useQuery } from "react-query"
+import { useQuery } from "@tanstack/react-query"
 import * as AppActions from '@/context/App/AppActions'
 import MapCtx from "../../context"
 
@@ -20,5 +20,9 @@ export const useHandlePopup = () => {
 const useGetProject = () => {
   const { selection } = useContext(MapCtx)
 
-  return useQuery(['getProject', selection], () => AppActions.getProject(selection), { enabled: !!selection })
+  return useQuery({
+    queryKey: ['getProject', selection],
+    queryFn: () => AppActions.getProject(selection),
+    enabled: !!selection
+  })
 }
