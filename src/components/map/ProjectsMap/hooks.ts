@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from "react"
+import { useContext, useState, useEffect, useMemo, useRef } from "react"
 import Map from '@arcgis/core/Map'
 import MapView from '@arcgis/core/views/MapView'
 import Point from '@arcgis/core/geometry/Point'
@@ -25,9 +25,10 @@ import { ProjectInterface } from "../../../context/App/types"
 export const useFilterProjects = (projects: ProjectInterface[]) => {
   const { filters } = useContext(MapCtx)
 
-  const filtered = projects.filter(project => filters.some(filter => filter === project.type))
-
-  return filtered
+  return useMemo(
+    () => projects.filter(project => filters.some(filter => filter === project.type)),
+    [projects, filters]
+  )
 }
 
 /**
@@ -81,7 +82,7 @@ const useCreateMapView = (mapRef: React.RefObject<HTMLDivElement>, setState: Rea
 
     const mapView = new MapView({
       container: mapRef.current,
-      map,
+      map: map as __esri.MapProperties,
       center: [-86.86897349, 35.92531721],
       zoom: 12,
       ui: { components: [] }
@@ -181,9 +182,14 @@ const useSetMapGraphics = (projects: AppTypes.ProjectInterface[], state: { view:
 * Handles map extent update
 **/
 const useUpdateMapExtent = (view: __esri.MapView | null, projects: AppTypes.ProjectInterface[]) => {
+  const prevUuidsRef = useRef<string>('')
 
   useEffect(() => {
     if(!view) return
+
+    const uuids = projects.map(p => p.uuid).sort().join(',')
+    if(uuids === prevUuidsRef.current) return
+    prevUuidsRef.current = uuids
 
     if(projects.length) {
       const multipoint = new Multipoint({

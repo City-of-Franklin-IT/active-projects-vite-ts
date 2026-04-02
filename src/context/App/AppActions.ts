@@ -1,6 +1,8 @@
 import { NODE_ENV } from "../../config"
 
-const API_URL = NODE_ENV === 'development' ? 'https://cofasv38.franklin-gov.com/api/v2/eng/public/active-projects' : 'https://dev.franklintn.gov/api/v2/eng/public/active-projects'
+const API_URL = NODE_ENV === 'development' ? 
+  'https://cofasv38.franklin-gov.com/api/v2/eng/public/active-projects' : 
+  'https://dev.franklintn.gov/api/v2/eng/public/active-projects'
 
 // Types
 import * as AppTypes from '@/context/App/types'
@@ -13,6 +15,8 @@ import * as AppTypes from '@/context/App/types'
 export const getProjects = async (): Promise<{ success: boolean, data: AppTypes.ProjectInterface[] }> => {
   const res = await fetch(`${ API_URL }`)
 
+  if(!res.ok) throw new Error(res.statusText)
+
   return await res.json()
 }
 
@@ -23,6 +27,8 @@ export const getProjects = async (): Promise<{ success: boolean, data: AppTypes.
 **/
 export const getProject = async (uuid: string): Promise<{ success: boolean, data: AppTypes.ProjectInterface }> => {
   const res = await fetch(`${ API_URL }/${ uuid }`)
+
+  if(!res.ok) throw new Error(res.statusText)
 
   return await res.json()
 }
