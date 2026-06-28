@@ -3,18 +3,15 @@ import MapCtx from '../../context'
 import { iconMap, projectPhaseDescriptionMap } from './utils'
 
 // Types
-import * as AppTypes from '@/context/App/types'
+import type * as AppTypes from '@/context/App/types'
 
-export const PopupHeader = ({ project }: { project: AppTypes.ProjectInterface | undefined }) => {
-
-  return (
-    <div className="sticky flex flex-col gap-2 items-center py-3 px-8 bg-neutral border-2 border-neutral/50 border-r-warning border-b-warning border-l-warning m-auto w-fit top-0 left-0 rounded-b-xl shadow-2xl">
-      <img src={iconMap.get('cof')} alt="cof icon" className="w-16" />
-      <p className="text-warning text-xl font-bold uppercase text-center">{project?.name}</p>
-      <ProjectLink href={project?.link} />
-    </div>
-  )
-}
+export const PopupHeader = ({ project }: { project: AppTypes.ProjectInterface | undefined }) => (
+  <div className="sticky flex flex-col gap-2 items-center py-3 px-8 bg-neutral border-2 border-neutral/50 border-r-warning border-b-warning border-l-warning m-auto w-fit top-0 left-0 rounded-b-xl shadow-2xl">
+    <img src={iconMap.get('cof')} alt="cof icon" className="w-16" />
+    <p className="text-warning text-xl font-bold uppercase text-center">{project?.name}</p>
+    <ProjectLink href={project?.link} />
+  </div>
+)
 
 export const ManagerBadge = ({ name }: { name: string | null | undefined }) => {
   if(!name) return null
@@ -32,20 +29,17 @@ export const ManagerBadge = ({ name }: { name: string | null | undefined }) => {
   )
 }
 
-export const TypeBadge = ({ type }: { type: string | undefined }) => {
-
-  return (
-    <div className="flex gap-2 justify-around text-neutral-content px-2 py-3 w-fit">
-      <div className="flex gap-2 justify-around w-fit">
-        <img src={iconMap.get('type')} alt="project type icon" className="w-10 xl:w-14" />
-        <div className="flex flex-col items-center text-sm m-auto w-fit whitespace-nowrap">
-          <small>Project Type:</small>
-          <div className="uppercase">{type}</div>
-        </div>
+export const TypeBadge = ({ type }: { type: string | undefined }) => (
+  <div className="flex gap-2 justify-around text-neutral-content px-2 py-3 w-fit">
+    <div className="flex gap-2 justify-around w-fit">
+      <img src={iconMap.get('type')} alt="project type icon" className="w-10 xl:w-14" />
+      <div className="flex flex-col items-center text-sm m-auto w-fit whitespace-nowrap">
+        <small>Project Type:</small>
+        <div className="uppercase">{type}</div>
       </div>
     </div>
-  )
-}
+  </div>
+)
 
 export const ProjectDescription = ({ projectDescription }: { projectDescription: string | null | undefined }) => {
   if(!projectDescription) return null
@@ -79,7 +73,7 @@ export const ProjectUpdate = ({ projectUpdates }: { projectUpdates: AppTypes.Upd
 export const ProjectPhase = ({ phase }: { phase: AppTypes.ProjectPhaseType | undefined }) => {
   if(!phase) return null
 
-  const projectPhaseDescription = projectPhaseDescriptionMap.get(phase)
+  const projectPhaseDescription = projectPhaseDescriptionMap.get(phase)!
 
   return (
     <PopupSection>
@@ -104,21 +98,15 @@ export const CloseBtn = () => {
   )
 }
 
-const PopupSection = ({ children }: { children: React.ReactElement }) => {
+const PopupSection = ({ children }: { children: React.ReactElement }) => (
+  <div className="flex flex-col items-center text-neutral-content text-center bg-neutral w-full">
+    {children}
+  </div>
+)
 
-  return (
-    <div className="flex flex-col items-center text-neutral-content text-center bg-neutral w-full">
-      {children}
-    </div>
-  )
-}
-
-const PopupSectionHeader = ({ children }: { children: React.ReactNode }) => {
-
-  return (
-    <h3 className="pt-6 uppercase font-bold xl:text-xl">{children}</h3>
-  )
-}
+const PopupSectionHeader = ({ children }: { children: React.ReactNode }) => (
+  <h3 className="pt-6 uppercase font-bold xl:text-xl">{children}</h3>
+)
 
 const ProjectLink = ({ href }: { href: string | null | undefined }) => {
   if(!href) return null

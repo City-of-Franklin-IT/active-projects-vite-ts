@@ -3,9 +3,13 @@ import { setFilterOptions, iconSrcMap, legendOptions, motionProps } from './util
 import { useHandleMapOption, useHandleFilterOption } from './hooks'
 
 // Types
-import * as AppTypes from '@/context/App/types'
+import type * as AppTypes from '@/context/App/types'
 
-type FilterProps = { projects: AppTypes.ProjectInterface[], active: boolean, onClick: React.MouseEventHandler<HTMLButtonElement> }
+type FilterProps = { 
+  projects: AppTypes.ProjectInterface[]
+  active: boolean
+  onClick: React.MouseEventHandler<HTMLButtonElement> 
+}
 
 export const Filter = (props: FilterProps) => {
   const { btnProps, iconSrc } = useHandleMapOption('filter', props.active, props.onClick)
@@ -28,7 +32,10 @@ export const Filter = (props: FilterProps) => {
   )
 }
 
-type LegendProps = { active: boolean, onClick: React.MouseEventHandler<HTMLButtonElement> }
+type LegendProps = { 
+  active: boolean
+  onClick: React.MouseEventHandler<HTMLButtonElement> 
+}
 
 export const Legend = (props: LegendProps) => {
   const { btnProps, iconSrc } = useHandleMapOption('legend', props.active, props.onClick)
@@ -49,7 +56,10 @@ export const Legend = (props: LegendProps) => {
   )
 }
 
-type FilterOptionsProps = { projects: AppTypes.ProjectInterface[], visible: boolean }
+type FilterOptionsProps = { 
+  projects: AppTypes.ProjectInterface[]
+  visible: boolean 
+}
 
 const FilterOptions = (props: FilterOptionsProps) => {
   if(!props.visible) return null
@@ -108,12 +118,9 @@ const LegendOptions = ({ visible }: { visible: boolean }) => {
   )
 }
 
-const LegendOption = ({ type }: { type: AppTypes.ProjectType }) => {
-
-  return (
-    <div className="flex justify-between gap-6 items-center w-full">
-      <span className="text-[jura] text-neutral-content font-bold">{type}</span>
-      <img src={iconSrcMap.get(type)} alt="legend type icon" className="w-8" />
-    </div>
-  )
-}
+const LegendOption = ({ type }: { type: AppTypes.ProjectType }) => (
+  <div className="flex justify-between gap-6 items-center w-full">
+    <span className="text-[jura] text-neutral-content font-bold">{type}</span>
+    <img src={iconSrcMap.get(type)} alt="legend type icon" className="w-8" />
+  </div>
+)

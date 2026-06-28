@@ -1,13 +1,11 @@
-import { useContext } from "react"
 import { motion } from "motion/react"
-import cofIcon from '@/assets/icons/cof/cof.png'
-import MapCtx from "../../context"
 import { motionProps } from "@/components/containers/MapOptionsContainer/utils"
+import { useHandleMapTitle } from "./hooks"
 
 function MapTitle() {
-  const { selection } = useContext(MapCtx)
+  const { visible, cofIcon } = useHandleMapTitle()
 
-  if(!!selection) return null
+  if(!visible) return null
 
   return (
     <motion.div 

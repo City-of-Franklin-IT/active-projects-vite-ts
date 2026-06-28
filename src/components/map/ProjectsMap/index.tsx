@@ -6,11 +6,8 @@ import { ProjectInterface } from "../../../context/App/types"
 
 function ProjectsMap({ projects }: { projects: ProjectInterface[] }) {
   const mapRef = useRef<HTMLDivElement>(null)
-
   const filtered = useFilterProjects(projects)
-
   const debounced = useDebounce(filtered, 500)
-
   useSetMapView(mapRef as React.RefObject<HTMLDivElement>, debounced)
 
   return (

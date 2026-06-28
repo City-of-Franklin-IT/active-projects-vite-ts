@@ -8,7 +8,7 @@ import * as Components from './components'
 function Popup() {
   const { project, visible } = useHandlePopup()
 
-  if(!visible) return
+  if(!visible) return null
 
   return (
     <motion.div 

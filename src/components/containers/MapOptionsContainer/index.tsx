@@ -3,7 +3,7 @@ import { useHandleMapOptionsContainer } from './hooks'
 import { motionProps } from './utils'
 
 // Types
-import * as AppTypes from '@/context/App/types'
+import type * as AppTypes from '@/context/App/types'
 
 // Components
 import * as Components from './components'
