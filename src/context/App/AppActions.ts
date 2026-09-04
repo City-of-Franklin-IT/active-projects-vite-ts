@@ -1,11 +1,7 @@
-import { NODE_ENV } from "../../config"
-
-const API_URL = NODE_ENV === 'development' ? 
-  'https://cofasv38.franklin-gov.com/api/v2/eng/public/active-projects' : 
-  'https://dev.franklintn.gov/api/v2/eng/public/active-projects'
+const API_URL = import.meta.env.VITE_API_URL
 
 // Types
-import * as AppTypes from '@/context/App/types'
+import type * as AppTypes from '@/context/App/types'
 
 /**
 * Get active capital projects
