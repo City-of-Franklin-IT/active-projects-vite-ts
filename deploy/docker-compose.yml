@@ -1,12 +1,6 @@
 services:
   active-projects:
-    image: active-projects-vite-ts:1.0.0
-    build:
-      context: ..
-      dockerfile: Dockerfile
-      args:
-        VITE_APP_BASE: /active-projects
-        VITE_API_URL: https://dev.franklintn.gov/api/v3/eng/public/active-projects
+    image: ghcr.io/city-of-franklin-it/active-projects-vite-ts:1.0.0
     container_name: active-projects-vite-ts
     restart: unless-stopped
     ports:
