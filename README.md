@@ -50,9 +50,9 @@ src/
 
 ## API
 
-**Production API**: https://api.franklin-gov.com/api/v2/eng<br>
-**API Proxy**: https://dev.franklintn.gov/api/v2/eng<br>
-**API Documentation**: [API Docs](https://dev.franklintn.gov/api/v2/eng/api-docs)<br>
+**Production API**: https://api.franklin-gov.com/api/v3/eng<br>
+**API Proxy**: https://dev.franklintn.gov/api/v3/eng<br>
+**API Documentation**: [API Docs](https://dev.franklintn.gov/api/v3/eng/api-docs)<br>
 **API Source**: [GitHub - eng-api-ts](https://github.com/City-of-Franklin-IT/eng-api-ts)
 
 ## Database

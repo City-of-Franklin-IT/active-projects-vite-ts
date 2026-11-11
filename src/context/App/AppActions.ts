@@ -6,7 +6,7 @@ import type * as AppTypes from '@/context/App/types'
 /**
 * Get active capital projects
 * 
-* GET /api/v2/eng/public/active-projects
+* GET /api/v3/eng/public/active-projects
 **/
 export const getProjects = async (): Promise<{ success: boolean, data: AppTypes.ProjectInterface[] }> => {
   const res = await fetch(`${ API_URL }`)
@@ -19,7 +19,7 @@ export const getProjects = async (): Promise<{ success: boolean, data: AppTypes.
 /**
 * Get capital project by uuid
 * 
-* GET /api/v2/eng/public/active-projects/:uuid
+* GET /api/v3/eng/public/active-projects/:uuid
 **/
 export const getProject = async (uuid: string): Promise<{ success: boolean, data: AppTypes.ProjectInterface }> => {
   const res = await fetch(`${ API_URL }/${ uuid }`)

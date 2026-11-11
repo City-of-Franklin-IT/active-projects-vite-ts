@@ -1,0 +1,19 @@
+services:
+  active-projects:
+    image: active-projects-vite-ts:1.0.0
+    build:
+      context: ..
+      dockerfile: Dockerfile
+      args:
+        VITE_APP_BASE: /active-projects
+        VITE_API_URL: https://dev.franklintn.gov/api/v3/eng/public/active-projects
+    container_name: active-projects-vite-ts
+    restart: unless-stopped
+    ports:
+      - "6000:6000"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:6000/healthz"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 5s

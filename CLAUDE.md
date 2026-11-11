@@ -33,8 +33,8 @@ npx vitest --watch                          # Run tests in watch mode
 ### API & State Management
 
 **API Integration:** All API calls are centralized in `src/context/App/AppActions.ts`. The API base URL is environment-aware:
-- Development: `https://cofasv38.franklin-gov.com/api/v2/eng/public/active-projects`
-- Production: `https://dev.franklintn.gov/api/v2/eng/public/active-projects`
+- Development: `https://cofasv38.franklin-gov.com/api/v3/eng/public/active-projects`
+- Production: `https://dev.franklintn.gov/api/v3/eng/public/active-projects`
 
 **State Management Pattern:**
 - **React Query (v3)** for server state, caching, and data fetching
