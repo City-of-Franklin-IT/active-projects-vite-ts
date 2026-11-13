@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router"
+import { APP_BASE } from '@/config'
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query"
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
@@ -11,7 +12,7 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Router basename={import.meta.env.VITE_APP_BASE}>
+      <Router basename={APP_BASE}>
         <Routes>
           <Route path={'/'} element={<Home />} />
         </Routes>

@@ -9,13 +9,6 @@ RUN npm ci
 
 COPY . .
 
-# Vite inlines these at build time (see src/App.tsx and src/context/App/AppActions.ts).
-# Override with --build-arg (or `args:` in docker-compose) for other environments.
-ARG VITE_APP_BASE=/active-projects
-ARG VITE_API_URL=https://dev.franklintn.gov/api/v3/eng/public/active-projects
-ENV VITE_APP_BASE=$VITE_APP_BASE \
-    VITE_API_URL=$VITE_API_URL
-
 RUN npm run build
 
 # ---- Runtime stage ----
