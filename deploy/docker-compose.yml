@@ -1,7 +1,7 @@
 services:
   active-projects:
     image: ghcr.io/city-of-franklin-it/active-projects-vite-ts:1.0.1
-    container_name: active-projects-vite-ts
+    container_name: active-projects
     restart: unless-stopped
     ports:
       - "6000:6000"
